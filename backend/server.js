@@ -18,20 +18,18 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 
-app.get("/api/products", productRoutes);
+app.use("/api/products", productRoutes);
 
 async function initDB() {
   try {
-    await sql`
+   const co = await sql`
     CREATE TABLE IF NOT EXISTS products(
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       image VARCHAR(255) NOT NULL,
       price DECIMAL(10, 2) NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `;
-    console.log("datbase intialize sucessfully");
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`;
+    console.log("datbase intialize sucessfully", co);
   } catch (error) {
     console.log("error initdb", error);
   }
