@@ -9,32 +9,33 @@ export const useProductStore = create((set, get) => ({
   products: [],
   loading: false,
   error: null,
-  
-  //form data state 
+  currentProduct: null,
+
+  //form data state
   formData: {
     name: "",
     price: "",
     image: "",
   },
 
-  setFormData:(formData) => set({formData}),
-  resetForm:() => set({formData: {name: "", price: "", image: ""}}),
+  setFormData: (formData) => set({ formData }),
+  resetForm: () => set({ formData: { name: "", price: "", image: "" } }),
 
   addProduct: async (e) => {
     e.preventDefault();
-    set({loading: true})
+    set({ loading: true });
     try {
-      const {formData} = get()
-      await axios.post(`${BASE_URL}/api/products`, formData)
-      await get.fetchProducts()
-      get().resetForm()
-      toast.success("Product created sucessfully")
-      document.getElementById("add_product_modal").closest()
+      const { formData } = get();
+      await axios.post(`${BASE_URL}/api/products`, formData);
+      await get.fetchProducts();
+      get().resetForm();
+      toast.success("Product created sucessfully");
+      document.getElementById("add_product_modal").closest();
     } catch (error) {
       console.log("Error while creating product......");
-      toast.error("Failed to create product")
-    }finally{
-    set({loading: false})
+      toast.error("Failed to create product");
+    } finally {
+      set({ loading: false });
     }
   },
 
@@ -55,6 +56,42 @@ export const useProductStore = create((set, get) => ({
     }
   },
 
+  fetchProduct: async (id) => {
+    set({ loading: true });
+    try {
+      const response = await axios.get(`${BASE_URL}/api/products/${id}`);
+      set({
+        currentProduct: response.data.data,
+        formData: response.data.data,
+        error: null,
+      });
+    } catch (error) {
+      console.log("error while fetching single product", error);
+      set({ error: "Something went wrong", currentProduct: null });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  updateProduct: async (id) => {
+    set({ loading: true });
+    try {
+      const { formData } = get();
+      const response = await axios.put(
+        `${BASE_URL}/api/products/${id}`,
+        formData,
+      );
+      set({ currentProduct: response.data.data });
+      toast.success("Product updated successfully");
+      toast.success("Product updated successfully");
+    } catch (error) {
+      toast.success("Failed to update product");
+      console.log("Error while updating the product", error);
+    } finally {
+      set({ loading: false });
+    }
+  },
+
   deletProduct: async (id) => {
     set({ loading: true });
     try {
@@ -70,4 +107,4 @@ export const useProductStore = create((set, get) => ({
       set({ loading: false });
     }
   },
-}))
+}));
