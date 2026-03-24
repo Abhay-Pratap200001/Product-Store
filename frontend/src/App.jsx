@@ -4,6 +4,7 @@ import  {Routes, Route} from "react-router-dom"
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import { useThemeStore } from "./store/UseThemeStore";
+import {Toaster} from "react-hot-toast"
 
 const App = () => {
     const { theme, setTheme } = useThemeStore();
@@ -15,6 +16,8 @@ const App = () => {
         <Route path="/" element={<HomePage/>}/>
         <Route path="/product/:id" element={<ProductPage/>}/>
       </Routes>
+
+      <Toaster/>
     </div>
   );
 };
