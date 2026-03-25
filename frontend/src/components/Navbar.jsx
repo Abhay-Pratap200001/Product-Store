@@ -11,7 +11,7 @@ const Navbar = () => {
   const {theme, setTheme} = useThemeStore()
 
   return (
-    <div className="bg-base-100/80 backdrop-blur-lg border-b border-base-content/100 static top-0 z-50">
+    <div className="bg-base-100/80 backdrop-blur-lg border-b border-base-content/100 static top-0">
       <div className="max-w-7xl mx-auto">
         <div className="navbar px-4 min-h-[4rem] justify-between">
           <div className="flex-1 lg:flex-none">
@@ -26,7 +26,7 @@ const Navbar = () => {
           </div>
 
           {/* right section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 z-50">
             <ThemeSelector/>
             {isHomePage && (
               <div className=" indicator">

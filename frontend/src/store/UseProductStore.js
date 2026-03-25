@@ -27,10 +27,10 @@ export const useProductStore = create((set, get) => ({
     try {
       const { formData } = get();
       await axios.post(`${BASE_URL}/api/products`, formData);
-      await get.fetchProducts();
+      await get().fetchProducts();
       get().resetForm();
       toast.success("Product created sucessfully");
-      document.getElementById("add_product_modal").closest();
+      document.getElementById("add_product_modal").close();
     } catch (error) {
       console.log("Error while creating product......");
       toast.error("Failed to create product");
@@ -82,7 +82,6 @@ export const useProductStore = create((set, get) => ({
         formData,
       );
       set({ currentProduct: response.data.data });
-      toast.success("Product updated successfully");
       toast.success("Product updated successfully");
     } catch (error) {
       toast.success("Failed to update product");
